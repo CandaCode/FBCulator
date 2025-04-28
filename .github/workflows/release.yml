@@ -1,0 +1,95 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            src-tauri/target/release/*.exe
+            src-tauri/target/release/*.deb
+            src-tauri/target/release/*.AppImage
+            src-tauri/target/release/*.dmg
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    needs: create-release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli
+      - name: Install dependencies
+        run: npm install
+      - name: Build for Windows
+        run: npm run build:win32
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows
+          path: src-tauri/target/release/*.exe
+
+  build-linux:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli
+      - name: Install dependencies
+        run: npm install
+      - name: Build for Linux
+        run: npm run build:linux
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux
+          path: src-tauri/target/release/*.AppImage
+
+  build-macos:
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli
+      - name: Install dependencies
+        run: npm install
+      - name: Build for macOS
+        run: npm run build:macos
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos
+          path: src-tauri/target/release/*.dmg 

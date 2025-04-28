@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri App</title>
+    <script type="module" src="/src/main.js" defer></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>DC-DC反馈电阻计算器</h1>
+      
+      <div class="input-group">
+        <div class="input-row">
+          <div class="input-item">
+            <input type="number" id="vref" placeholder="参考电压（V） 示例：0.6">
+            <span class="input-hint">典型值范围：0.6-5V</span>
+          </div>
+          <div class="input-item">
+            <input type="number" id="vout" placeholder="目标电压（V） 示例：12">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-item">
+            <input type="number" id="r1" placeholder="R1（KΩ） 示例：10">
+          </div>
+          <div class="input-item">
+            <input type="number" id="r2" placeholder="R2（KΩ） 示例：2">
+          </div>
+        </div>
+      </div>
+      
+      <button id="calculate-btn" class="calculate-btn" disabled>立即计算</button>
+      
+      <div class="result-card">
+        <h3>计算结果</h3>
+        <div class="result-item">
+          <span class="result-label">反馈电流：</span>
+          <span id="current" class="highlight">-- mA</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">理论电压：</span>
+          <span id="voltage">-- V</span>
+        </div>
+        <div class="result-row">
+          <div class="result-cell">R1 = <span id="result-r1" class="highlight">-- KΩ</span></div>
+          <div class="result-cell">R2 = <span id="result-r2" class="highlight">-- KΩ</span></div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
