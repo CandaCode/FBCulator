@@ -1,7 +1,7 @@
 {
   "tauri": {
     "bundle": {
-      "targets": "portable",
+      "targets": "app",
       "windows": {
         "wix": {
           "skipWebviewInstall": true
