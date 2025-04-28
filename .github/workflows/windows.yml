@@ -1,0 +1,41 @@
+name: Windows Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        type: string
+        default: 'v1.0.0'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli
+      - name: Install dependencies
+        run: npm install
+      - name: Build for Windows
+        run: npm run build:win32
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: src-tauri/target/release/*.exe
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
