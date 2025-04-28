@@ -8,12 +8,13 @@
     "build": "vite build",
     "preview": "vite preview",
     "build:win32": "tauri build --target x86_64-pc-windows-msvc",
+    "build:win32-portable": "tauri build --target x86_64-pc-windows-msvc --config '{\"tauri\":{\"bundle\":{\"windows\":{\"wix\":{\"skipWebviewInstall\":true}}}}}'",
     "build:win32-arm": "tauri build --target aarch64-pc-windows-msvc",
     "build:linux": "tauri build --target x86_64-unknown-linux-gnu",
     "build:linux-arm": "tauri build --target aarch64-unknown-linux-gnu",
     "build:macos": "tauri build --target x86_64-apple-darwin",
     "build:macos-arm": "tauri build --target aarch64-apple-darwin",
-    "build:all": "npm run build:win32 && npm run build:win32-arm && npm run build:linux && npm run build:linux-arm && npm run build:macos && npm run build:macos-arm"
+    "build:all": "npm run build:win32 && npm run build:win32-portable && npm run build:win32-arm && npm run build:linux && npm run build:linux-arm && npm run build:macos && npm run build:macos-arm"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.6.0",
