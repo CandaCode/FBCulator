@@ -1,6 +1,6 @@
-# FBCulator - Facebook ID Calculator
+# FBCulator - Feedback Resistor Calculator
 
-Modern cross-platform application for calculating Facebook UID built with:
+Modern cross-platform application for calculating DC-DC feedback resistor values built with:
 
 ## Technology Stack
 - Frontend Framework: React 18
